@@ -1,0 +1,1 @@
+console.log('Start index.js in package.json')
