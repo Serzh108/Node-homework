@@ -1,0 +1,27 @@
+{
+  "name": "homework-01",
+  "version": "1.0.0",
+  "description": "node-homework-01",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Serzh108/Node-homework.git"
+  },
+  "author": "Serzh108 <serzh108@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Serzh108/Node-homework/issues"
+  },
+  "homepage": "https://github.com/Serzh108/Node-homework#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "yargs": "^15.3.1"
+  }
+}
