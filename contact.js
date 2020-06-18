@@ -3,29 +3,32 @@ const { promises: fsPromises } = fs;
 const path = require('path');
 
 const contactsPath = path.join(__dirname, 'db/contacts.json');
+module.exports.contactsPath = contactsPath;
 // console.log('contactsPath = ', contactsPath);
 // ================================================
 // const dataFromJson = fs.readFileSync(`${contactsPath}`, "utf-8");
 // console.log('dataFromJson : ', dataFromJson);
 // ================================================
-async function listContacts() {
+module.exports.listContacts = async function(pathToFile) {
   try {
     await fsPromises
-      .readFile(`${contactsPath}`, 'utf-8')
-      .then(res => console.log('res = ', res));
+      .readFile(pathToFile, 'utf-8')
+      .then(res => console.table(JSON.parse(res)));
+      // .then(res => console.log('Contacts list: ',  JSON.parse(res)));
   } catch (err) {
     throw err;
   }
 }
 
-// listContacts();
+// listContacts(contactsPath);
 // ================================================
-async function getContactById(contactId) {
+module.exports.getContactById = async function(pathToFile, contactId) {
   try {
-    await fsPromises.readFile(`${contactsPath}`, 'utf-8').then(res => {
+    await fsPromises.readFile(pathToFile, 'utf-8').then(res => {
       const result = JSON.parse(res);
       const contact = result.find(item => item.id === contactId);
-      console.log('contact = ', contact);
+      console.table(contact);
+      // console.log('contact = ', contact);
     });
   } catch (err) {
     throw err;
@@ -34,13 +37,13 @@ async function getContactById(contactId) {
 
 // getContactById(7);
 // ================================================
-async function removeContact(contactId) {
+module.exports.removeContact = async function(pathToFile, contactId) {
   try {
-    await fsPromises.readFile(`${contactsPath}`, 'utf-8').then(res => {
+    await fsPromises.readFile(pathToFile, 'utf-8').then(res => {
       const result = JSON.parse(res);
       const newContact = result.filter(item => item.id !== contactId);
       // console.log('newContact = ', newContact);
-      fsPromises.writeFile(`${contactsPath}`, JSON.stringify(newContact));
+      fsPromises.writeFile(pathToFile, JSON.stringify(newContact));
     });
   } catch (err) {
     throw err;
@@ -49,9 +52,9 @@ async function removeContact(contactId) {
 
 // removeContact(3);
 // ================================================
-async function addContact(name, email, phone) {
+module.exports.addContact = async function(pathToFile, name, email, phone) {
   try {
-    await fsPromises.readFile(`${contactsPath}`, 'utf-8').then(res => {
+    await fsPromises.readFile(pathToFile, 'utf-8').then(res => {
       const result = JSON.parse(res);
       const lastContactId = result[result.length - 1].id;
       // console.log('lastContactId = ', lastContactId);
@@ -63,7 +66,7 @@ async function addContact(name, email, phone) {
       };
       result.push(newContact);
       // console.log('result = ', result);
-      fsPromises.writeFile(`${contactsPath}`, JSON.stringify(result));
+      fsPromises.writeFile(pathToFile, JSON.stringify(result));
     });
   } catch (err) {
     throw err;
