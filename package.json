@@ -1,0 +1,27 @@
+{
+  "name": "02-express",
+  "version": "1.0.0",
+  "description": "02-express Node.js Hemework",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Serzh108/Node-homework.git"
+  },
+  "author": "Serzh108 <serzh108@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Serzh108/Node-homework/issues"
+  },
+  "homepage": "https://github.com/Serzh108/Node-homework#readme"
+}
