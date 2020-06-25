@@ -9,20 +9,20 @@ module.exports.contactsPath = contactsPath;
 // const dataFromJson = fs.readFileSync(`${contactsPath}`, "utf-8");
 // console.log('dataFromJson : ', dataFromJson);
 // ================================================
-module.exports.listContacts = async function(pathToFile) {
+module.exports.listContacts = async function (pathToFile) {
   try {
     await fsPromises
       .readFile(pathToFile, 'utf-8')
       .then(res => console.table(JSON.parse(res)));
-      // .then(res => console.log('Contacts list: ',  JSON.parse(res)));
+    // .then(res => console.log('Contacts list: ',  JSON.parse(res)));
   } catch (err) {
     throw err;
   }
-}
+};
 
 // listContacts(contactsPath);
 // ================================================
-module.exports.getContactById = async function(pathToFile, contactId) {
+module.exports.getContactById = async function (pathToFile, contactId) {
   try {
     await fsPromises.readFile(pathToFile, 'utf-8').then(res => {
       const result = JSON.parse(res);
@@ -33,11 +33,11 @@ module.exports.getContactById = async function(pathToFile, contactId) {
   } catch (err) {
     throw err;
   }
-}
+};
 
 // getContactById(7);
 // ================================================
-module.exports.removeContact = async function(pathToFile, contactId) {
+module.exports.removeContact = async function (pathToFile, contactId) {
   try {
     await fsPromises.readFile(pathToFile, 'utf-8').then(res => {
       const result = JSON.parse(res);
@@ -48,11 +48,11 @@ module.exports.removeContact = async function(pathToFile, contactId) {
   } catch (err) {
     throw err;
   }
-}
+};
 
 // removeContact(3);
 // ================================================
-module.exports.addContact = async function(pathToFile, name, email, phone) {
+module.exports.addContact = async function (pathToFile, name, email, phone) {
   try {
     await fsPromises.readFile(pathToFile, 'utf-8').then(res => {
       const result = JSON.parse(res);
@@ -71,7 +71,7 @@ module.exports.addContact = async function(pathToFile, name, email, phone) {
   } catch (err) {
     throw err;
   }
-}
+};
 
 // addContact('Vasya Pupkin', 'Vasya.Pupkin@vestibul.com', '(044) 098-7654');
 // ================================================
