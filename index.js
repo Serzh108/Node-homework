@@ -1,38 +1,14 @@
-const argv = require('yargs').argv;
-const contact = require('./contact');
+const express = require('express');
+const cors = require('cors');
 
-// console.log('contactsPath = ', contact.contactsPath);
+const app = express();
+app.use(cors());
+const PORT = 3000;
 
-// contact.listContacts(contact.contactsPath);
+app.get('/', function (request, respons, next) {
+  respons.send('Hi from my server');
+});
 
-// contact.getContactById(contact.contactsPath, 11);
-
-// contact.removeContact(contact.contactsPath, 11);
-
-// contact.addContact(contact.contactsPath, 'Vasya Pupkin', 'Vasya.Pupkin@goit.com.ua', '(044) 098-7654')
-// ============================================
-
-function invokeAction({ action, id, name, email, phone }) {
-  switch (action) {
-    case 'list':
-      contact.listContacts(contact.contactsPath);
-      break;
-
-    case 'get':
-      contact.getContactById(contact.contactsPath, id);
-      break;
-
-    case 'add':
-      contact.addContact(contact.contactsPath, name, email, phone);
-      break;
-
-    case 'remove':
-      contact.removeContact(contact.contactsPath, id);
-      break;
-
-    default:
-      console.warn('\x1B[31m Unknown action type!');
-  }
-}
-
-invokeAction(argv);
+app.listen(PORT, function () {
+  console.log('Listen onport: ', PORT)
+});
