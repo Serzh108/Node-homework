@@ -1,12 +1,22 @@
 {
-  "name": "homework-01",
+  "name": "02-express",
   "version": "1.0.0",
-  "description": "node-homework-01",
+  "description": "02-express Node.js Hemework",
   "main": "index.js",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "uuid": "^8.2.0",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "test": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,11 +27,5 @@
   "bugs": {
     "url": "https://github.com/Serzh108/Node-homework/issues"
   },
-  "homepage": "https://github.com/Serzh108/Node-homework#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  },
-  "dependencies": {
-    "yargs": "^15.3.1"
-  }
+  "homepage": "https://github.com/Serzh108/Node-homework#readme"
 }
