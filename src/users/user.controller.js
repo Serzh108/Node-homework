@@ -33,8 +33,13 @@ exports.updateContact = async (req, res, next) => {
       { _id: req.params.contactId },
       { $set: req.body },
     );
+    // const updatedContact = await userModel.findByIdAndUpdateOne(
+    //   req.params.contactId,
+    //   { $set: req.body },
+    //   { new: true },
+    // );
     if (!updatedContact) {
-      return res.status(404).send({ message: 'Not found' });
+      return res.status(404).send({ message: 'Contact not found' });
     }
     return res.status(200).send(updatedContact);
   } catch (err) {
