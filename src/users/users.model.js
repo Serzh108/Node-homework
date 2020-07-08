@@ -11,7 +11,7 @@ const userSchema = new Schema({
   phone: { type: String, required: true },
   subscription: { type: String, required: true },
   password: { type: String, required: true },
-  token: { type: String },
+  token: { type: String, required: true },
 });
 
 exports.userModel = mongoose.model('Contact', userSchema);

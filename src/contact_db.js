@@ -7,10 +7,10 @@ async function main() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("Database connection successful")
+    console.log('Database connection successful');
   } catch (err) {
-    throw err;
-    // process.exit(1);
+    console.log('Error: ', err);
+    process.exit(1);
   }
 }
 

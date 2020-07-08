@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const Joi = require('@hapi/joi');
+Joi.objectId = require('joi-objectid')(Joi);
 const { validateData } = require('../validator');
 const {
   createContact,
@@ -13,13 +14,17 @@ const contact = require('../contact_db');
 
 const router = Router();
 
+const userIdShema = Joi.object({
+  contactId: Joi.objectId(),
+});
+
 const userShema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
   phone: Joi.string().required(),
   subscription: Joi.string().required(),
   password: Joi.string().required(),
-  token: Joi.string(),
+  token: Joi.string().required(),
 });
 
 const userUpdateShema = Joi.object({
@@ -33,12 +38,21 @@ const userUpdateShema = Joi.object({
 
 router.get('/', listContacts);
 
-router.get('/:contactId', getContactById);
+router.get('/:contactId', validateData(userIdShema, 'params'), getContactById);
 
 router.post('/', validateData(userShema), createContact);
 
-router.patch('/:contactId', validateData(userUpdateShema), updateContact);
+router.patch(
+  '/:contactId',
+  validateData(userIdShema, 'params'),
+  validateData(userUpdateShema),
+  updateContact,
+);
 
-router.delete('/:contactId', removeContact);
+router.delete(
+  '/:contactId',
+  validateData(userIdShema, 'params'),
+  removeContact,
+);
 
 exports.userRouter = router;

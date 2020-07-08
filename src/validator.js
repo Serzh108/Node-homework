@@ -1,8 +1,9 @@
-exports.validateData = function validateData(shema) {
+exports.validateData = function validateData(shema, reqParam = 'body') {
   return (req, res, next) => {
-    const validationResult = shema.validate(req.body);
+    console.log('req[reqParam] = ', req[reqParam]);
+    const validationResult = shema.validate(req[reqParam]);
     if (validationResult.error) {
-      return res.status(400).send({ message: 'missing required field' });
+      return res.status(400).send(validationResult.error);
     }
     next();
   };
