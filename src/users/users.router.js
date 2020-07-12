@@ -10,7 +10,7 @@ const {
   updateContact,
 } = require('./user.controller');
 
-const contact = require('../contact_db');
+// const contact = require('../contact_db');
 
 const router = Router();
 

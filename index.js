@@ -3,10 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const { userRouter } = require('./src/users/users.router');
+const { main } = require('./src/contact_db');
+// const contact = require('./src/contact_db');
 
 const PORT = process.env.PORT;
 
 const app = express();
+
+main();
 
 app.use(cors());
 app.use(express.json());

@@ -1,7 +1,8 @@
 require('./config');
 const mongoose = require('mongoose');
 
-async function main() {
+// async function main() {
+ exports.main = async () => {
   try {
     const connection_db = await mongoose.connect(process.env.MONGODB_URL, {
       useNewUrlParser: true,
@@ -12,6 +13,6 @@ async function main() {
     console.log('Error: ', err);
     process.exit(1);
   }
-}
+};
 
-main();
+// main();
