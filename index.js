@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 // app.use('/api/contacts', userRouter);
-app.use('/auth', authRouter);
+app.use('/', authRouter);
 
 app.use((err, req, res, next) => {
   const { message, status } = err;

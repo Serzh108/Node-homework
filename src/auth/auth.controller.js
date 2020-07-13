@@ -41,7 +41,11 @@ exports.loginUser = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    
+    const updatedContact = await userModel.findByIdAndUpdate(
+      currentUser._id,
+      { $set: { token: token } },
+      { new: true },
+    );
 
     return res.status(200).send({
       token,
@@ -62,6 +66,11 @@ exports.getLoggedUser = (req, res) => {
     .send({ email: req.user.email, subscription: req.user.subscription });
 };
 // ================================================
-exports.logoutUser = (req, res, next) => {
+exports.logoutUser = async (req, res, next) => {
+  const updatedContact = await userModel.findByIdAndUpdate(
+    req.user._id,
+    { $set: { token: null } },
+    { new: true },
+  );
   return res.status(204).send();
 };

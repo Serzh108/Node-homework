@@ -12,12 +12,12 @@ const registerSchema = Joi.object({
   // token: Joi.string().required(),
 });
 
-router.post('/register', validateData(registerSchema), registerUser);
+router.post('/auth/register', validateData(registerSchema), registerUser);
 
-router.post('/login', validateData(registerSchema), loginUser);
+router.post('/auth/login', validateData(registerSchema), loginUser);
 
-router.get('/current', authorization, getLoggedUser);
+router.get('/users/current', authorization, getLoggedUser);
 
-router.post('/logout', authorization, logoutUser);
+router.post('/auth/logout', authorization, logoutUser);
 
 exports.authRouter = router;
