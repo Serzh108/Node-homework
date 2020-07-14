@@ -21,6 +21,7 @@
     "nodemon": "^2.0.4"
   },
   "scripts": {
+    "test_d": "nodemon add_task.js",
     "test": "nodemon index.js",
     "start": "node index.js"
   },

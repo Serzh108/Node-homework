@@ -12,7 +12,10 @@ exports.createContact = async (req, res, next) => {
 // ================================================
 exports.listContacts = async (req, res, next) => {
   try {
-    const contacts = await userModel.find();
+    const sub = req.url.split('=');
+    const contacts = await userModel.find(
+      sub[1] ? { subscription: sub[1] } : {},
+    );
     return res.status(200).send(contacts);
   } catch (err) {
     next(err);
