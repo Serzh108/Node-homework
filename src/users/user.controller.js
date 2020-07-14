@@ -19,6 +19,31 @@ exports.listContacts = async (req, res, next) => {
   }
 };
 // ================================================
+exports.listContactsWithPage = async (req, res, next) => {
+  try {
+    const options = {
+      page: 4,
+      limit: 5,
+    };
+    // const contacts = await userModel.find();
+     const contacts = await userModel.paginate({}, options, function(err, result) {
+      return result.docs;
+      // result.totalDocs = 100
+      // result.limit = 10
+      // result.page = 1
+      // result.totalPages = 10
+      // result.hasNextPage = true
+      // result.nextPage = 2
+      // result.hasPrevPage = false
+      // result.prevPage = null
+      // result.pagingCounter = 1
+    });
+    return res.status(200).send(contacts);
+  } catch (err) {
+    next(err);
+  }
+};
+// ================================================
 exports.getContactById = async function (req, res, next) {
   try {
     const ContactById = await userModel.findById(req.params.contactId);

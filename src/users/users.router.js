@@ -5,6 +5,7 @@ const { validateData } = require('../validator');
 const {
   createContact,
   listContacts,
+  listContactsWithPage,
   getContactById,
   removeContact,
   updateContact,
@@ -36,7 +37,9 @@ const userUpdateShema = Joi.object({
   token: Joi.string(),
 }).min(1);
 
-router.get('/', listContacts);
+// router.get('/', listContacts);
+
+router.get('/', listContactsWithPage);
 
 router.get('/:contactId', validateData(userIdShema, 'params'), getContactById);
 
