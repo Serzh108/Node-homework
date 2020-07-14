@@ -8,8 +8,6 @@ const router = Router();
 const registerSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
-  // subscription: Joi.string().required(),
-  // token: Joi.string().required(),
 });
 
 router.post('/auth/register', validateData(registerSchema), registerUser);
