@@ -20,24 +20,29 @@ exports.listContacts = async (req, res, next) => {
 };
 // ================================================
 exports.listContactsWithPage = async (req, res, next) => {
-  try {
-    const options = {
-      page: 4,
-      limit: 5,
-    };
-    // const contacts = await userModel.find();
-     const contacts = await userModel.paginate({}, options, function(err, result) {
-      return result.docs;
-      // result.totalDocs = 100
-      // result.limit = 10
-      // result.page = 1
-      // result.totalPages = 10
-      // result.hasNextPage = true
-      // result.nextPage = 2
-      // result.hasPrevPage = false
-      // result.prevPage = null
-      // result.pagingCounter = 1
-    });
+  const url = req.url;
+  const options = url
+    .replace('/?', '')
+    .split('&')
+    .reduce((acc, item) => {
+      const x = item.split('=');
+      x[0] === 'sub' ? (acc[x[0]] = x[1]) : (acc[x[0]] = +x[1]);
+      return acc;
+    }, {});
+   try {
+    let contacts;
+    if (options.hasOwnProperty('sub') || options.hasOwnProperty('/')) {
+      contacts = await userModel.find(
+        options.sub ? { subscription: options.sub } : {},
+      );
+    } else {
+      contacts = await userModel.paginate(
+        {},
+        options,
+        (err, result) => result.docs,
+      );
+    }
+
     return res.status(200).send(contacts);
   } catch (err) {
     next(err);
