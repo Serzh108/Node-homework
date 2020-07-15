@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const { userRouter } = require('./src/users/users.router');
-// const { authRouter } = require('./src/auth/auth.router');
+const { authRouter } = require('./src/auth/auth.router');
 const { main } = require('./src/contact_db');
 
 const PORT = process.env.PORT;
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 app.use('/contacts', userRouter);
-// app.use('/', authRouter);
+app.use('/', authRouter);
 
 app.use((err, req, res, next) => {
   const { message, status } = err;

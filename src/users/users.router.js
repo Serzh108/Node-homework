@@ -38,7 +38,6 @@ const userUpdateShema = Joi.object({
 }).min(1);
 
 // router.get('/', listContacts);
-
 router.get('/', listContactsWithPage);
 
 router.get('/:contactId', validateData(userIdShema, 'params'), getContactById);

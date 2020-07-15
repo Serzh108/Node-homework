@@ -1,7 +1,6 @@
 const { userModel } = require('./auth.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const { userRouter } = require('../users/users.router');
 const { authRouter } = require('./auth.router');
 
 const soltQuantity = 6;
@@ -74,3 +73,21 @@ exports.logoutUser = async (req, res, next) => {
   );
   return res.status(204).send();
 };
+// ================================================
+exports.changeUsersSubscriptoin = async (req, res, next) => {
+  try {
+    console.log('req.user: ', req.user);
+    const changeSubscription = await userModel.findByIdAndUpdate(
+      req.user._id,
+      { $set: req.body },
+      { new: true },
+    );
+    if (!changeSubscription) {
+      return res.status(404).send({ message: 'Contact not found' });
+    }
+    return res.status(200).send(changeSubscription);
+  } catch (err) {
+    next(err);
+  }
+};
+// ================================================

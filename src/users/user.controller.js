@@ -68,10 +68,7 @@ exports.updateContact = async (req, res, next) => {
       { $set: req.body },
       { new: true },
     );
-    if (!updatedContact) {
-      return res.status(404).send({ message: 'Contact not found' });
-    }
-    return res.status(200).send(updatedContact);
+c
   } catch (err) {
     next(err);
   }
