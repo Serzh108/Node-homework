@@ -80,3 +80,21 @@ exports.logoutUser = async (req, res, next) => {
     next(err);
   }
 };
+// ================================================
+exports.changeUsersSubscriptoin = async (req, res, next) => {
+  try {
+    console.log('req.user: ', req.user);
+    const changeSubscription = await userModel.findByIdAndUpdate(
+      req.user._id,
+      { $set: req.body },
+      { new: true },
+    );
+    if (!changeSubscription) {
+      return res.status(404).send({ message: 'Contact not found' });
+    }
+    return res.status(200).send(changeSubscription);
+  } catch (err) {
+    next(err);
+  }
+};
+// ================================================

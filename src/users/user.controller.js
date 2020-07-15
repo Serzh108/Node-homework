@@ -22,6 +22,36 @@ exports.listContacts = async (req, res, next) => {
   }
 };
 // ================================================
+exports.listContactsWithPage = async (req, res, next) => {
+  const url = req.url;
+  const options = url
+    .replace('/?', '')
+    .split('&')
+    .reduce((acc, item) => {
+      const x = item.split('=');
+      x[0] === 'sub' ? (acc[x[0]] = x[1]) : (acc[x[0]] = +x[1]);
+      return acc;
+    }, {});
+   try {
+    let contacts;
+    if (options.hasOwnProperty('sub') || options.hasOwnProperty('/')) {
+      contacts = await userModel.find(
+        options.sub ? { subscription: options.sub } : {},
+      );
+    } else {
+      contacts = await userModel.paginate(
+        {},
+        options,
+        (err, result) => result.docs,
+      );
+    }
+
+    return res.status(200).send(contacts);
+  } catch (err) {
+    next(err);
+  }
+};
+// ================================================
 exports.getContactById = async function (req, res, next) {
   try {
     const ContactById = await userModel.findById(req.params.contactId);
@@ -41,10 +71,7 @@ exports.updateContact = async (req, res, next) => {
       { $set: req.body },
       { new: true },
     );
-    if (!updatedContact) {
-      return res.status(404).send({ message: 'Contact not found' });
-    }
-    return res.status(200).send(updatedContact);
+c
   } catch (err) {
     next(err);
   }
