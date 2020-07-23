@@ -1,10 +1,29 @@
 const { userModel } = require('./auth.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 const { authRouter } = require('./auth.router');
 
 const soltQuantity = 6;
 // ================================================
+// exports.registerUser = async (req, res, next) => {
+//   try {
+//     const { email, password } = req.body;
+//     const isUserExist = await userModel.findOne({ email });
+//     if (isUserExist) {
+//       return res.status(409).send('Email in use');
+//     }
+
+//     const passwordHash = await bcrypt.hash(password, soltQuantity);
+
+//     const newUser = await userModel.create({ email, passwordHash });
+//     return res.status(201).send({ user: { email, subscription: 'free' } });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+// ================================================
+// ======= registerUser with avatar ===============
 exports.registerUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -14,14 +33,15 @@ exports.registerUser = async (req, res, next) => {
     }
 
     const passwordHash = await bcrypt.hash(password, soltQuantity);
+    const avatarURL = 'http://localhost:3000/images/' + req.file.filename;
 
-    const newUser = await userModel.create({ email, passwordHash });
+    const newUser = await userModel.create({ email, passwordHash, avatarURL });
     return res.status(201).send({ user: { email, subscription: 'free' } });
   } catch (err) {
     next(err);
   }
 };
-// ================================================
+// ====== / =======================================
 exports.loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -83,7 +103,6 @@ exports.logoutUser = async (req, res, next) => {
 // ================================================
 exports.changeUsersSubscriptoin = async (req, res, next) => {
   try {
-    console.log('req.user: ', req.user);
     const changeSubscription = await userModel.findByIdAndUpdate(
       req.user._id,
       { $set: req.body },
@@ -93,6 +112,26 @@ exports.changeUsersSubscriptoin = async (req, res, next) => {
       return res.status(404).send({ message: 'Contact not found' });
     }
     return res.status(200).send(changeSubscription);
+  } catch (err) {
+    next(err);
+  }
+};
+// ================================================
+exports.changeUsersAvatar = async (req, res, next) => {
+  try {
+    const avatarURL = 'http://localhost:3000/images/' + req.file.filename;
+    const newBody = { ...req.body, avatarURL: avatarURL };
+
+    const changeAvatar = await userModel.findByIdAndUpdate(
+      req.user._id,
+      { $set: newBody },
+      { new: true },
+    );
+    if (!changeAvatar) {
+      return res.status(401).send({ message: 'Not authorized' });
+    }
+
+    return res.status(200).send({ avatarURL: changeAvatar.avatarURL });
   } catch (err) {
     next(err);
   }

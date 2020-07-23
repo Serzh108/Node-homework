@@ -16,6 +16,9 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 
+app.use(express.static('./src/public')
+);
+
 app.use('/contacts', userRouter);
 app.use('/', authRouter);
 
