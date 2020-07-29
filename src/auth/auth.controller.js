@@ -1,7 +1,7 @@
 const { userModel } = require('./auth.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const { v4: uuidv4 } = require('uuid');
 const { authRouter } = require('./auth.router');
 
 const soltQuantity = 6;
@@ -34,8 +34,17 @@ exports.registerUser = async (req, res, next) => {
 
     const passwordHash = await bcrypt.hash(password, soltQuantity);
     const avatarURL = 'http://localhost:3000/images/' + req.file.filename;
+    const verificationToken = uuidv4();
 
-    const newUser = await userModel.create({ email, passwordHash, avatarURL });
+    const newUser = await userModel.create({
+      email,
+      passwordHash,
+      avatarURL,
+      verificationToken,
+    });
+
+    req.body.verificationToken = verificationToken;
+    next();
     return res.status(201).send({ user: { email, subscription: 'free' } });
   } catch (err) {
     next(err);
@@ -137,3 +146,21 @@ exports.changeUsersAvatar = async (req, res, next) => {
   }
 };
 // ================================================
+exports.verificationEmail = async (req, res, next) => {
+  try {
+    const query = req.params.verificationToken;
+
+    const ContactByVerificationToken = await userModel.findOneAndUpdate(
+      { verificationToken: query },
+      { verificationToken: null },
+      { new: true },
+    );
+
+    if (!ContactByVerificationToken) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+    return res.status(200).send('Ok');
+  } catch (err) {
+    next(err);
+  }
+};

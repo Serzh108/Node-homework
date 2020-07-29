@@ -8,8 +8,10 @@ const {
   logoutUser,
   changeUsersSubscriptoin,
   changeUsersAvatar,
+  verificationEmail,
 } = require('./auth.controller');
 const { authorization } = require('./auth.middleware');
+const { sendTokenToEmail } = require('./helper/sendTokenToEmail1');
 
 const router = Router();
 const registerSchema = Joi.object({
@@ -24,6 +26,7 @@ router.post(
   upload.single('avatar'),
   validateData(registerSchema),
   registerUser,
+  sendTokenToEmail,
 );
 
 router.post('/auth/login', validateData(registerSchema), loginUser);
@@ -40,5 +43,7 @@ router.patch(
 );
 
 router.post('/auth/logout', authorization, logoutUser);
+
+router.get('/auth/verify/:verificationToken', verificationEmail);
 
 exports.authRouter = router;
